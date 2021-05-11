@@ -51,4 +51,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(IllegalArgumentException.class)
+	private ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+		ApiError apiError = new ApiError(status.value(), ex.getMessage(), OffsetDateTime.now());
+		return new ResponseEntity<>(apiError, status);
+	}
+
 }
